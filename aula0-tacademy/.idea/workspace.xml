@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="75b9543f-0398-40de-bb0c-bc34e29458d7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/src/AreaCirculo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/src/DadosAnimal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/src/Desconto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/src/FormulaBhaskara.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/src/IdadeUsuario.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/src/MediaDasNotas.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Exercicios/teste scanner feito pelo professor.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../sistema calculo area retangulo/sistema calculo area retangulo.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aula0-tacademy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/aula0-tacademy.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Dev-Kaua&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Dev-Kaua/T-academy&quot;,
+    &quot;accountId&quot;: &quot;469e7124-1f1d-401f-aa12-88775e8f29c6&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="30ry9k7GGjPxgTMLQClomxMSHNV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.AreaCirculo.executor": "Run",
+    "Application.DadosAnimal.executor": "Run",
+    "Application.Desconto.executor": "Run",
+    "Application.FormulaBhaskara.executor": "Run",
+    "Application.IdadeUsuario.executor": "Run",
+    "Application.MediaDasNotas.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="75b9543f-0398-40de-bb0c-bc34e29458d7" name="Changes" comment="" />
+      <created>1754399838918</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1754399838918</updated>
+    </task>
+    <servers />
+  </component>
+</project>
