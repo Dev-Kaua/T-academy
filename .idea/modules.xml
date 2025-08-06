@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/T-academy.iml" filepath="$PROJECT_DIR$/.idea/T-academy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/aula0-tacademy/aula0-tacademy.iml" filepath="$PROJECT_DIR$/aula0-tacademy/aula0-tacademy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sistema calculo area retangulo/sistema calculo area retangulo.iml" filepath="$PROJECT_DIR$/sistema calculo area retangulo/sistema calculo area retangulo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sistema da idade do usuario/sistema da idade do usuario.iml" filepath="$PROJECT_DIR$/sistema da idade do usuario/sistema da idade do usuario.iml" />
+    </modules>
+  </component>
+</project>
