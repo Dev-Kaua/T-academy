@@ -37,7 +37,7 @@ public class ExemploArraylist3 {
     }
 
     public static void removerProduto(){
-        
+
     }
 
 }
