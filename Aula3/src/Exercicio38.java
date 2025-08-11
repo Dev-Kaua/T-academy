@@ -12,8 +12,12 @@ public class Exercicio38 {
 
         while(anoAtual > anoInicial){
             salarioFinal = salarioAnterior + (salarioAnterior * percentualAumento);
-            
+            salarioAnterior = salarioFinal;
+            percentualAumento *= 2;
+            anoInicial++;
         }
+
+        System.out.println(salarioFinal);
 
     }
 }
