@@ -44,3 +44,31 @@
 📁 devops/             → Scripts e configurações para automação e Docker
 📁 mensageria/         → Projetos com RabbitMQ e comunicação assíncrona
 📁 projetos-finais/    → Projetos completos com foco em regras de negócio
+
+---
+
+💡 Projetos em destaque
+
+Projeto	Descrição	Tecnologias
+
+🏭 Sistema de Estoque e Produção	CRUD em Java para monitoramento de estoque e criação de produtos manufaturados a partir de insumos, aplicando regras de negócio como baixas automáticas e receitas de produção	Java POO
+🧟‍♂️ Zombie Survival API	API backend simulando uma infestação zumbi com armas, personagens e sobrevivência	Java, Spring Boot, PostgreSQL
+🐶 Sistema PetShop	Sistema de petshop interativo via terminal, com foco total em POO	Java puro
+
+
+
+---
+
+📬 Contato
+
+<p>
+  <a href="https://www.linkedin.com/in/kauã-reis-rodrigues-730219357">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/>
+  </a>
+  <a href="https://github.com/Dev-Kaua">
+    <img src="https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github&logoColor=white"/>
+  </a>
+  <a href="mailto:kaua732153@gmail.com">
+    <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white"/>
+  </a>
+</p>
