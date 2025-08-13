@@ -44,6 +44,7 @@
 📁 devops/             → Scripts e configurações para automação e Docker
 📁 mensageria/         → Projetos com RabbitMQ e comunicação assíncrona
 📁 projetos-finais/    → Projetos completos com foco em regras de negócio
+```
 
 ---
 
