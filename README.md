@@ -31,6 +31,7 @@
 ---
 
 ## 📂 Estrutura do repositório
+Pretendo organizar da seguinte maneira futuramente:
 
 ```plaintext
 📁 logica/             → Exercícios de lógica de programação
