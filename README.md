@@ -1,8 +1,3 @@
-<!-- Banner do repositório -->
-<p align="center">
-  <img src="https://i.imgur.com/FHGOwXZ.png" alt="T-Academy Banner" width="100%">
-</p>
-
 <h1 align="center">🏆 T-Academy — Formação Corporativa em Tecnologia</h1>
 
 <p align="center">
@@ -48,13 +43,10 @@
 
 ---
 
-💡 Projetos em destaque
+💡 Projetos em destaque até agora;
 
-Projeto	Descrição	Tecnologias
 
-🏭 Sistema de Estoque e Produção	CRUD em Java para monitoramento de estoque e criação de produtos manufaturados a partir de insumos, aplicando regras de negócio como baixas automáticas e receitas de produção	Java POO
-🧟‍♂️ Zombie Survival API	API backend simulando uma infestação zumbi com armas, personagens e sobrevivência	Java, Spring Boot, PostgreSQL
-🐶 Sistema PetShop	Sistema de petshop interativo via terminal, com foco total em POO	Java puro
+🏭 Sistema de Estoque e Produção	CRUD em Java para monitoramento de estoque e criação de produtos manufaturados a partir de insumos, aplicando regras de negócio como baixas automáticas e receitas de produção	Java POO.
 
 
 
