@@ -102,3 +102,13 @@ WHERE especie.nome = 'gato';
 select animal.nome, animal.peso FROM animal
 JOIN dono ON animal.dono_id =  dono.id
 WHERE dono.email LIKE '%gmail%';
+
+-- outros joins/selects --
+
+select dono.nome, animal.nome, consulta.data_consulta from consulta
+join animal on consulta.animal_id = animal.id
+join dono on animal.dono_id = dono.id where dono.nome like '%joão%';
+
+select animal.nome, consulta.observacoes, especie.nome from consulta
+join animal on consulta.animal_id = animal.id
+join especie on animal.especie_id = especie.id where especie.nome = 'Raposa';
