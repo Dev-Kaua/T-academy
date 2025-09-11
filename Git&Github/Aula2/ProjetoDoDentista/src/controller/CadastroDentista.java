@@ -23,7 +23,7 @@ public class CadastroDentista {
             if (dentista.getId() == id){
                 return dentista;
             }else {
-                System.out.println("Dentista com esse id não encontrado!");
+                System.out.println("Dentista com esse id não encontrado");
             }
         }
         return null;
