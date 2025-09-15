@@ -1,5 +1,6 @@
 package com.APIs.aula2.segundo.projeto.Spring.boot.T_academy.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class Time {
 
     private String cidade;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "time", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Jogador> jogadoresList;
 
