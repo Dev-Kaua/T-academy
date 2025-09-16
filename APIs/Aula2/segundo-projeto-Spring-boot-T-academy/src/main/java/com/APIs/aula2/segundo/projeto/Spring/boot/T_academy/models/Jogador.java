@@ -1,5 +1,6 @@
 package com.APIs.aula2.segundo.projeto.Spring.boot.T_academy.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Jogador {
     private String nome;
     @ManyToOne
     @JoinColumn(name = "time_id")
+    @JsonIgnore
     private Time time;
 
 }
