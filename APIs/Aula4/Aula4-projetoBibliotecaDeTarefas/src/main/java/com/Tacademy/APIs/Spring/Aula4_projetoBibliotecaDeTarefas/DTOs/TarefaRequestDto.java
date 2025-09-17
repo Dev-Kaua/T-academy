@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 
-public record TarefaDto(
+public record TarefaRequestDto(
         @NotNull String titulo,
         String descricao,
         @NotNull Status status,
