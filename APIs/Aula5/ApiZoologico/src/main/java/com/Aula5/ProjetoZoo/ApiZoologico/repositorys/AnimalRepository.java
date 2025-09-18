@@ -11,4 +11,5 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
     List<Animal> findByEspecieContainingIgnoreCase(String especie);
     List<Animal> findByIdadeBetween(int idadeMin, int idadeMax);
     List<Animal> findByNomeContainingIgnoreCase(String nome);
+    long countByHabitatId(Long habitatId);
 }

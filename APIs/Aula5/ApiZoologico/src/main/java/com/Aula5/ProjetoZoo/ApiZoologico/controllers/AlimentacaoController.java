@@ -1,5 +1,6 @@
 package com.Aula5.ProjetoZoo.ApiZoologico.controllers;
 
+import com.Aula5.ProjetoZoo.ApiZoologico.dtos.AlimentacaoDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Alimentacao;
 import com.Aula5.ProjetoZoo.ApiZoologico.services.AlimentacaoService;
 import org.springframework.http.HttpStatus;
@@ -22,36 +23,36 @@ public class AlimentacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Alimentacao>> getAll(
+    public ResponseEntity<List<AlimentacaoDto>> getAll(
             @RequestParam(required = false) String tipoComida,
             @RequestParam(required = false) Long animalId) {
 
         if (tipoComida != null) {
-            return ResponseEntity.ok(alimentacaoService.findByTipoComida(tipoComida));
+            return ResponseEntity.ok(alimentacaoService.findDtoByTipoComida(tipoComida));
         } else if (animalId != null) {
-            return ResponseEntity.ok(alimentacaoService.findByAnimalId(animalId));
+            return ResponseEntity.ok(alimentacaoService.findDtoByAnimalId(animalId));
         } else {
-            return ResponseEntity.ok(alimentacaoService.findAll());
+            return ResponseEntity.ok(alimentacaoService.findAllDto());
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(alimentacaoService.findById(id));
+            return ResponseEntity.ok(alimentacaoService.findDtoById(id));
         } catch (RuntimeException e) {
             return buildErrorResponse("Alimentação não encontrada", e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<Alimentacao> add(@RequestBody Alimentacao alimentacao) {
-        Alimentacao novaAlimentacao = alimentacaoService.create(alimentacao);
+    public ResponseEntity<AlimentacaoDto> add(@RequestBody AlimentacaoDto alimentacao) {
+        AlimentacaoDto novaAlimentacao = alimentacaoService.create(alimentacao);
         return ResponseEntity.status(HttpStatus.CREATED).body(novaAlimentacao);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Alimentacao alimentacao) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody AlimentacaoDto alimentacao) {
         try {
             return ResponseEntity.ok(alimentacaoService.update(id, alimentacao));
         } catch (RuntimeException e) {
