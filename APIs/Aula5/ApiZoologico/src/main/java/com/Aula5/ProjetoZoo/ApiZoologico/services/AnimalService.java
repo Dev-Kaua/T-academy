@@ -65,7 +65,24 @@ public class AnimalService {
     }
 
     public AnimalDto create(AnimalDto dto) {
-        Animal animal = toEntity(dto);
+        Habitat habitat = habitatRepository.findById(dto.habitatId())
+                .orElseThrow(() -> new RuntimeException("Habitat não encontrado"));
+
+        long quantidadeAnimais = animalRepository.countByHabitatId(habitat.getId());
+        if (quantidadeAnimais >= habitat.getCapacidadeMaxima()){
+            throw new RuntimeException("Capacidade máxima do habitat atingida");
+        }
+
+        Cuidador cuidador = cuidadorRepository.findById(dto.cuidadorId())
+                .orElseThrow(() -> new RuntimeException("Cuidador do animal não encontrado"));
+
+        Animal animal = new Animal();
+        animal.setNome(dto.nome());
+        animal.setIdade(dto.idade());
+        animal.setEspecie(dto.especie());
+        animal.setCuidador(cuidador);
+        animal.setHabitat(habitat);
+
         Animal salvo = animalRepository.save(animal);
         return toDto(salvo);
     }
