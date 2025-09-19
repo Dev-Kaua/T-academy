@@ -3,6 +3,7 @@ package com.Aula5.ProjetoZoo.ApiZoologico.controllers;
 import com.Aula5.ProjetoZoo.ApiZoologico.dtos.AnimalDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
 import com.Aula5.ProjetoZoo.ApiZoologico.services.AnimalService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -77,4 +78,6 @@ public class AnimalController {
         body.put("message", message);
         return new ResponseEntity<>(body, status);
     }
+
+
 }

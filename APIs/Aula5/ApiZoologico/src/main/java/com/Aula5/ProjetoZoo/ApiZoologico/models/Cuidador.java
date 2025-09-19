@@ -15,11 +15,20 @@ public class Cuidador {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String nome;
+
     @Column(nullable = false)
     private String especialidade;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     public Turno turno;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String telefone;
 }

@@ -7,6 +7,7 @@ import com.Aula5.ProjetoZoo.ApiZoologico.models.Habitat;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AnimalRepository;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.CuidadorRepository;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.HabitatRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -78,7 +79,12 @@ public class AnimalService {
             existente.setCuidador(cuidador);
         }
 
-        return animalRepository.save(existente);
+        Animal atualizado = animalRepository.save(existente);
+
+        // Dispara relatório (use RelatorioService, não o EmailService direto)
+        emailService.enviarRelatorioAtualizacao(atualizado);
+
+        return atualizado;
     }
 
     public void delete(Long id) {
@@ -97,5 +103,22 @@ public class AnimalService {
 
     public List<Animal> findByNome(String nome) {
         return animalRepository.findByNome(nome);
+    }
+
+
+    @Autowired
+    private EmailService emailService;
+
+    public Animal atualizarAnimal(Long id, Animal novoAnimal) {
+        return animalRepository.findById(id).map(animal -> {
+            animal.setNome(novoAnimal.getNome());
+            animal.setEspecie(novoAnimal.getEspecie());
+            animal.setIdade(novoAnimal.getIdade());
+            Animal atualizado = animalRepository.save(animal);
+
+            emailService.enviarRelatorioAtualizacao(atualizado);
+
+            return atualizado;
+        }).orElseThrow(() -> new RuntimeException("Animal não encontrado"));
     }
 }
