@@ -1,7 +1,7 @@
 package com.Aula5.ProjetoZoo.ApiZoologico.services;
 
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Veterinario;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.VeterinarioRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.VeterinarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

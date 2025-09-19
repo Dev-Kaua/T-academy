@@ -3,7 +3,7 @@ package com.Aula5.ProjetoZoo.ApiZoologico.services;
 import com.Aula5.ProjetoZoo.ApiZoologico.dtos.CuidadorDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Cuidador;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Turno;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.CuidadorRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.CuidadorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

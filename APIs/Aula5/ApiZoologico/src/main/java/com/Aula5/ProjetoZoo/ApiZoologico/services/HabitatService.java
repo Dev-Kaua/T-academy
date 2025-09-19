@@ -2,7 +2,7 @@ package com.Aula5.ProjetoZoo.ApiZoologico.services;
 
 import com.Aula5.ProjetoZoo.ApiZoologico.dtos.HabitatDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Habitat;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.HabitatRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.HabitatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;

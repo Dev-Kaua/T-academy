@@ -3,8 +3,8 @@ package com.Aula5.ProjetoZoo.ApiZoologico.services;
 import com.Aula5.ProjetoZoo.ApiZoologico.dtos.AlimentacaoDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Alimentacao;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.AlimentacaoRepository;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.AnimalRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AlimentacaoRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AnimalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

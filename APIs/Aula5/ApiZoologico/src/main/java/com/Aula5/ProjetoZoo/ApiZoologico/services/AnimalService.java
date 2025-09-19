@@ -4,9 +4,9 @@ import com.Aula5.ProjetoZoo.ApiZoologico.dtos.AnimalDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Cuidador;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Habitat;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.AnimalRepository;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.CuidadorRepository;
-import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.HabitatRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AnimalRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.CuidadorRepository;
+import com.Aula5.ProjetoZoo.ApiZoologico.repositories.HabitatRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
