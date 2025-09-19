@@ -1,6 +1,7 @@
 package com.Aula5.ProjetoZoo.ApiZoologico.controllers;
 
 import com.Aula5.ProjetoZoo.ApiZoologico.dtos.AnimalDto;
+import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
 import com.Aula5.ProjetoZoo.ApiZoologico.services.AnimalService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class AnimalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AnimalDto>> listAll(
+    public ResponseEntity<List<Animal>> listAll(
             @RequestParam(required = false) String especie,
             @RequestParam(required = false) Integer idadeMin,
             @RequestParam(required = false) Integer idadeMax,
@@ -45,7 +46,7 @@ public class AnimalController {
     }
 
     @PostMapping
-    public ResponseEntity<AnimalDto> create(@RequestBody AnimalDto dto) {
+    public ResponseEntity<Animal> create(@RequestBody AnimalDto dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(animalService.create(dto));
     }
 

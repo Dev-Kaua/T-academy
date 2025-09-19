@@ -10,7 +10,6 @@ import com.Aula5.ProjetoZoo.ApiZoologico.repositorys.HabitatRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AnimalService {
@@ -26,50 +25,23 @@ public class AnimalService {
         this.cuidadorRepository = cuidadorRepository;
     }
 
-    private AnimalDto toDto(Animal a) {
-        return new AnimalDto(
-                a.getId(),
-                a.getNome(),
-                a.getEspecie(),
-                a.getIdade(),
-                a.getHabitat() != null ? a.getHabitat().getId() : null,
-                a.getCuidador() != null ? a.getCuidador().getId() : null
-        );
+
+    public List<Animal> findAll() {
+        return animalRepository.findAll();
     }
 
-    private Animal toEntity(AnimalDto dto) {
-        Habitat habitat = dto.habitatId() != null ? habitatRepository.findById(dto.habitatId()).orElse(null) : null;
-        Cuidador cuidador = dto.cuidadorId() != null ? cuidadorRepository.findById(dto.cuidadorId()).orElse(null) : null;
-
-        Animal animal = new Animal();
-        animal.setId(dto.id());
-        animal.setNome(dto.nome());
-        animal.setEspecie(dto.especie());
-        animal.setIdade(dto.idade());
-        animal.setHabitat(habitat);
-        animal.setCuidador(cuidador);
-        return animal;
-    }
-
-    public List<AnimalDto> findAll() {
-        return animalRepository.findAll()
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public AnimalDto findById(Long id) {
-        Animal a = animalRepository.findById(id)
+    public Animal findById(Long id) {
+        return animalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
-        return toDto(a);
     }
 
-    public AnimalDto create(AnimalDto dto) {
+
+    public Animal create(AnimalDto dto) {
         Habitat habitat = habitatRepository.findById(dto.habitatId())
                 .orElseThrow(() -> new RuntimeException("Habitat não encontrado"));
 
         long quantidadeAnimais = animalRepository.countByHabitatId(habitat.getId());
-        if (quantidadeAnimais >= habitat.getCapacidadeMaxima()){
+        if (quantidadeAnimais >= habitat.getCapacidadeMaxima()) {
             throw new RuntimeException("Capacidade máxima do habitat atingida");
         }
 
@@ -83,22 +55,30 @@ public class AnimalService {
         animal.setCuidador(cuidador);
         animal.setHabitat(habitat);
 
-        Animal salvo = animalRepository.save(animal);
-        return toDto(salvo);
+        return animalRepository.save(animal);
     }
 
-    public AnimalDto update(Long id, AnimalDto dto) {
+    public Animal update(Long id, AnimalDto dto) {
         Animal existente = animalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
 
         existente.setNome(dto.nome());
         existente.setEspecie(dto.especie());
         existente.setIdade(dto.idade());
-        existente.setHabitat(dto.habitatId() != null ? habitatRepository.findById(dto.habitatId()).orElse(null) : null);
-        existente.setCuidador(dto.cuidadorId() != null ? cuidadorRepository.findById(dto.cuidadorId()).orElse(null) : null);
 
-        Animal atualizado = animalRepository.save(existente);
-        return toDto(atualizado);
+        if (dto.habitatId() != null) {
+            Habitat habitat = habitatRepository.findById(dto.habitatId())
+                    .orElseThrow(() -> new RuntimeException("Habitat não encontrado"));
+            existente.setHabitat(habitat);
+        }
+
+        if (dto.cuidadorId() != null) {
+            Cuidador cuidador = cuidadorRepository.findById(dto.cuidadorId())
+                    .orElseThrow(() -> new RuntimeException("Cuidador não encontrado"));
+            existente.setCuidador(cuidador);
+        }
+
+        return animalRepository.save(existente);
     }
 
     public void delete(Long id) {
@@ -107,24 +87,15 @@ public class AnimalService {
         animalRepository.delete(existente);
     }
 
-    public List<AnimalDto> findByEspecie(String especie) {
-        return animalRepository.findByEspecieContainingIgnoreCase(especie)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<Animal> findByEspecie(String especie) {
+        return animalRepository.findByEspecie(especie);
     }
 
-    public List<AnimalDto> findByIdadeBetween(int idadeMin, int idadeMax) {
-        return animalRepository.findByIdadeBetween(idadeMin, idadeMax)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<Animal> findByIdadeBetween(int idadeMin, int idadeMax) {
+        return animalRepository.findByIdadeBetween(idadeMin, idadeMax);
     }
 
-    public List<AnimalDto> findByNome(String nome) {
-        return animalRepository.findByNomeContainingIgnoreCase(nome)
-                .stream()
-                .map(this::toDto)
-                .collect(Collectors.toList());
+    public List<Animal> findByNome(String nome) {
+        return animalRepository.findByNome(nome);
     }
 }
