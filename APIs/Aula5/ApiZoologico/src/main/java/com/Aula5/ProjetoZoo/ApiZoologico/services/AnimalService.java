@@ -7,6 +7,7 @@ import com.Aula5.ProjetoZoo.ApiZoologico.models.Habitat;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AnimalRepository;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.CuidadorRepository;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.HabitatRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,18 +26,17 @@ public class AnimalService {
         this.cuidadorRepository = cuidadorRepository;
     }
 
-
-    public List<Animal> findAll() {
+    // ---------- ENTITY ----------
+    public List<Animal> findAllEntities() {
         return animalRepository.findAll();
     }
 
-    public Animal findById(Long id) {
+    public Animal findByIdEntity(Long id) {
         return animalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
     }
 
-
-    public Animal create(AnimalDto dto) {
+    public Animal createEntity(AnimalDto dto) {
         Habitat habitat = habitatRepository.findById(dto.habitatId())
                 .orElseThrow(() -> new RuntimeException("Habitat não encontrado"));
 
@@ -58,44 +58,37 @@ public class AnimalService {
         return animalRepository.save(animal);
     }
 
-    public Animal update(Long id, AnimalDto dto) {
+    public Animal updateEntity(Long id, AnimalDto dto) {
         Animal existente = animalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
 
         existente.setNome(dto.nome());
         existente.setEspecie(dto.especie());
         existente.setIdade(dto.idade());
-
-        if (dto.habitatId() != null) {
-            Habitat habitat = habitatRepository.findById(dto.habitatId())
-                    .orElseThrow(() -> new RuntimeException("Habitat não encontrado"));
-            existente.setHabitat(habitat);
-        }
-
-        if (dto.cuidadorId() != null) {
-            Cuidador cuidador = cuidadorRepository.findById(dto.cuidadorId())
-                    .orElseThrow(() -> new RuntimeException("Cuidador não encontrado"));
-            existente.setCuidador(cuidador);
-        }
+        existente.setHabitat(dto.habitatId() != null ? habitatRepository.findById(dto.habitatId()).orElse(null) : null);
+        existente.setCuidador(dto.cuidadorId() != null ? cuidadorRepository.findById(dto.cuidadorId()).orElse(null) : null);
 
         return animalRepository.save(existente);
     }
 
+    // ---------- CONSULTAS ----------
+    public List<Animal> findByEspecieEntity(String especie) {
+        return animalRepository.findByEspecie(especie);
+    }
+
+    public List<Animal> findByIdadeBetweenEntity(int idadeMin, int idadeMax) {
+        return animalRepository.findByIdadeBetween(idadeMin, idadeMax);
+    }
+
+    public List<Animal> findByNomeEntity(String nome) {
+        return animalRepository.findByNomeContainingIgnoreCase(nome);
+    }
+
+    // ---------- DELETE ----------
     public void delete(Long id) {
         Animal existente = animalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
         animalRepository.delete(existente);
     }
 
-    public List<Animal> findByEspecie(String especie) {
-        return animalRepository.findByEspecie(especie);
-    }
-
-    public List<Animal> findByIdadeBetween(int idadeMin, int idadeMax) {
-        return animalRepository.findByIdadeBetween(idadeMin, idadeMax);
-    }
-
-    public List<Animal> findByNome(String nome) {
-        return animalRepository.findByNome(nome);
-    }
 }

@@ -12,4 +12,5 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
     List<Animal> findByIdadeBetween(int idadeMin, int idadeMax);
     List<Animal> findByNome(String nome);
     long countByHabitatId(Long habitatId);
+    List<Animal> findByNomeContainingIgnoreCase(String nome);
 }

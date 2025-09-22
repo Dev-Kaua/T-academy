@@ -15,13 +15,8 @@ public class Animal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String nome;
-
-    @Column(nullable = false)
     private String especie;
-
-    @Column(nullable = false)
     private int idade;
 
     @ManyToOne
@@ -31,4 +26,6 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name = "cuidador_id")
     private Cuidador cuidador;
+
+
 }

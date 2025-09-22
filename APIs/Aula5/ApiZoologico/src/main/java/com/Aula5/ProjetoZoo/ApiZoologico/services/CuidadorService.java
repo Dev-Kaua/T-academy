@@ -21,7 +21,9 @@ public class CuidadorService {
                 c.getId(),
                 c.getNome(),
                 c.getEspecialidade(),
-                c.getTurno()
+                c.getTurno(),
+                c.getEmail(),
+                c.getTelefone()
         );
     }
 
@@ -31,6 +33,8 @@ public class CuidadorService {
                 .nome(dto.nome())
                 .especialidade(dto.especialidade())
                 .turno(dto.turno())
+                .email(dto.email())
+                .telefone(dto.telefone())
                 .build();
     }
 
@@ -57,6 +61,8 @@ public class CuidadorService {
                     existente.setNome(dto.nome());
                     existente.setEspecialidade(dto.especialidade());
                     existente.setTurno(dto.turno());
+                    existente.setEmail(dto.email());
+                    existente.setTelefone(dto.telefone());
                     Cuidador atualizado = cuidadorRepository.save(existente);
                     return toDto(atualizado);
                 });
@@ -102,5 +108,4 @@ public class CuidadorService {
                 .map(this::toDto)
                 .collect(Collectors.toList());
     }
-
 }

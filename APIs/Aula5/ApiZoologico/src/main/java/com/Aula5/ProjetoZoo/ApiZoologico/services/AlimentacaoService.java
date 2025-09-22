@@ -5,28 +5,41 @@ import com.Aula5.ProjetoZoo.ApiZoologico.models.Alimentacao;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AlimentacaoRepository;
 import com.Aula5.ProjetoZoo.ApiZoologico.repositories.AnimalRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AlimentacaoService{
+public class AlimentacaoService {
 
     private final AlimentacaoRepository alimentacaoRepository;
     private final AnimalRepository animalRepository;
+    private final EmailService emailService;
 
-    public AlimentacaoService(AlimentacaoRepository alimentacaoRepository, AnimalRepository animalRepository) {
+    public AlimentacaoService(AlimentacaoRepository alimentacaoRepository,
+                              AnimalRepository animalRepository,
+                              EmailService emailService) {
         this.alimentacaoRepository = alimentacaoRepository;
         this.animalRepository = animalRepository;
+        this.emailService = emailService;
     }
 
-    private AlimentacaoDto toDto(Alimentacao a) {
+    // ========= Conversões DTO =========
+    private AlimentacaoDto toDto(Alimentacao alimentacao) {
+        Animal animal = alimentacao.getAnimal();
         return new AlimentacaoDto(
-                a.getId(),
-                a.getTipoComida(),
-                a.getQuantidadeDiaria(),
-                a.getAnimal() != null ? a.getAnimal().getId() : null
+                alimentacao.getId(),
+                alimentacao.getTipoComida(),
+                alimentacao.getQuantidadeDiaria(),
+                alimentacao.getHorario(),
+                alimentacao.isRealizada(),
+                animal != null ? animal.getId() : null,
+                animal != null ? animal.getNome() : null,
+                (animal != null && animal.getCuidador() != null) ? animal.getCuidador().getNome() : null
         );
     }
 
@@ -35,6 +48,8 @@ public class AlimentacaoService{
         alimentacao.setId(dto.id());
         alimentacao.setTipoComida(dto.tipoComida());
         alimentacao.setQuantidadeDiaria(dto.quantidadeDiaria());
+        alimentacao.setHorario(dto.horario());
+        alimentacao.setRealizada(dto.realizada());
 
         if (dto.animalId() != null) {
             Animal animal = animalRepository.findById(dto.animalId())
@@ -44,6 +59,7 @@ public class AlimentacaoService{
         return alimentacao;
     }
 
+    // ========= CRUD =========
     public List<AlimentacaoDto> findAllDto() {
         return alimentacaoRepository.findAll()
                 .stream()
@@ -53,8 +69,12 @@ public class AlimentacaoService{
 
     public AlimentacaoDto create(AlimentacaoDto alimentacaoDto) {
         Alimentacao entity = toEntity(alimentacaoDto);
-        Alimentacao alimentacaoSalvo = alimentacaoRepository.save(entity);
-        return toDto(alimentacaoSalvo);
+        Alimentacao salvo = alimentacaoRepository.save(entity);
+
+        // já dispara aviso na criação
+        enviarAviso(salvo);
+
+        return toDto(salvo);
     }
 
     public AlimentacaoDto findDtoById(Long id) {
@@ -69,6 +89,8 @@ public class AlimentacaoService{
 
         existente.setTipoComida(dto.tipoComida());
         existente.setQuantidadeDiaria(dto.quantidadeDiaria());
+        existente.setHorario(dto.horario());
+        existente.setRealizada(dto.realizada());
 
         if (dto.animalId() != null) {
             Animal animal = animalRepository.findById(dto.animalId())
@@ -105,5 +127,40 @@ public class AlimentacaoService{
                 .stream()
                 .map(this::toDto)
                 .toList();
+    }
+
+    // ========= Notificação =========
+    private void enviarAviso(Alimentacao alimentacao) {
+        Animal animal = alimentacao.getAnimal();
+        if (animal == null || animal.getCuidador() == null) return;
+
+        var cuidador = animal.getCuidador();
+        String assunto = "Aviso de alimentação - " + animal.getNome();
+        String corpo = """
+            O animal %s (%s) precisa de %.2f de %s.
+            Responsável: %s (%s)
+            """.formatted(
+                animal.getNome(),
+                animal.getEspecie(),
+                alimentacao.getQuantidadeDiaria(),
+                alimentacao.getTipoComida(),
+                cuidador.getNome(),
+                cuidador.getTelefone()
+        );
+
+        emailService.sendEmail(cuidador.getEmail(), assunto, corpo);
+    }
+
+    // ========= Rotina Automática =========
+    @Scheduled(cron = "0 * * * * *") // a cada minuto
+    public void verificarAlimentacoesPendentes() {
+        LocalDateTime agora = LocalDateTime.now();
+        List<Alimentacao> pendentes = alimentacaoRepository.findByHorarioBeforeAndRealizadaFalse(agora);
+
+        for (Alimentacao alimentacao : pendentes) {
+            enviarAviso(alimentacao);
+            alimentacao.setRealizada(true);
+            alimentacaoRepository.save(alimentacao);
+        }
     }
 }

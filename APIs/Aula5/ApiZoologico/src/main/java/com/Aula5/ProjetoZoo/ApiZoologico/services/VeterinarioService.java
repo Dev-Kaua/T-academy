@@ -18,10 +18,6 @@ public class VeterinarioService {
         return veterinarioRepository.findAll();
     }
 
-    public List<Veterinario> createAll(List<Veterinario> veterinario){
-        return veterinarioRepository.saveAll(veterinario);
-    }
-
     public Veterinario create(Veterinario veterinario){
         return  veterinarioRepository.save(veterinario);
     }

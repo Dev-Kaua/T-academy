@@ -6,6 +6,8 @@ public record CuidadorDto(
         Long id,
         String nome,
         String especialidade,
-        Turno turno
+        Turno turno,
+        String email,
+        String telefone
 ) {
 }
