@@ -1,6 +1,7 @@
 package com.Aula5.ProjetoZoo.ApiZoologico.services;
 
 import com.Aula5.ProjetoZoo.ApiZoologico.dtos.AnimalDto;
+import com.Aula5.ProjetoZoo.ApiZoologico.dtos.HistoricoDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Cuidador;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Habitat;
@@ -18,12 +19,17 @@ public class AnimalService {
     private final AnimalRepository animalRepository;
     private final HabitatRepository habitatRepository;
     private final CuidadorRepository cuidadorRepository;
+    private final EmailService emailService;
+    private final HistoricoService historicoService;
 
     public AnimalService(AnimalRepository animalRepository, HabitatRepository habitatRepository,
-                         CuidadorRepository cuidadorRepository) {
+                         CuidadorRepository cuidadorRepository, EmailService emailService,
+                         HistoricoService historicoService) {
         this.animalRepository = animalRepository;
         this.habitatRepository = habitatRepository;
         this.cuidadorRepository = cuidadorRepository;
+        this.emailService = emailService;
+        this.historicoService = historicoService;
     }
 
     // ---------- ENTITY ----------
@@ -55,12 +61,20 @@ public class AnimalService {
         animal.setCuidador(cuidador);
         animal.setHabitat(habitat);
 
-        return animalRepository.save(animal);
+        Animal salvo = animalRepository.save(animal);
+
+        emailService.enviarRelatorioAtualizacao(salvo, true);
+        HistoricoDto historico = historicoService.gerarHistorico(salvo.getId());
+        emailService.enviarHistorico(salvo, historico);
+
+        return salvo;
     }
 
     public Animal updateEntity(Long id, AnimalDto dto) {
         Animal existente = animalRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Animal não encontrado"));
+
+        Cuidador cuidadorAnterior = existente.getCuidador();
 
         existente.setNome(dto.nome());
         existente.setEspecie(dto.especie());
@@ -68,7 +82,19 @@ public class AnimalService {
         existente.setHabitat(dto.habitatId() != null ? habitatRepository.findById(dto.habitatId()).orElse(null) : null);
         existente.setCuidador(dto.cuidadorId() != null ? cuidadorRepository.findById(dto.cuidadorId()).orElse(null) : null);
 
-        return animalRepository.save(existente);
+        Animal atualizado = animalRepository.save(existente);
+
+        if (atualizado.getCuidador() != null && !atualizado.getCuidador().equals(cuidadorAnterior)) {
+            if (cuidadorAnterior != null) {
+                emailService.enviarAvisoTrocaCuidador(atualizado, cuidadorAnterior);
+            }
+
+            emailService.enviarRelatorioAtualizacao(atualizado, false);
+            HistoricoDto historico = historicoService.gerarHistorico(atualizado.getId());
+            emailService.enviarHistorico(atualizado, historico);
+        }
+
+        return atualizado;
     }
 
     // ---------- CONSULTAS ----------

@@ -1,7 +1,9 @@
 package com.Aula5.ProjetoZoo.ApiZoologico.services;
 
+import com.Aula5.ProjetoZoo.ApiZoologico.dtos.HistoricoDto;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Alimentacao;
 import com.Aula5.ProjetoZoo.ApiZoologico.models.Animal;
+import com.Aula5.ProjetoZoo.ApiZoologico.models.Cuidador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,12 +24,33 @@ public class EmailService {
         mailSender.send(mensagem);
     }
 
-    public void enviarRelatorioAtualizacao(Animal animal) {
+    public void enviarAviso(Alimentacao alimentacao) {
+        Animal animal = alimentacao.getAnimal();
+        if (animal == null || animal.getCuidador() == null) return;
+
+        var cuidador = animal.getCuidador();
+        String assunto = "Aviso de alimentação - " + animal.getNome();
+        String corpo = """
+            O animal %s (%s) precisa de %.2f de %s.
+            Responsável: %s (%s)
+            """.formatted(
+                animal.getNome(),
+                animal.getEspecie(),
+                alimentacao.getQuantidadeDiaria(),
+                alimentacao.getTipoComida(),
+                cuidador.getNome(),
+                cuidador.getTelefone()
+        );
+
+        sendEmail(cuidador.getEmail(), assunto, corpo);
+    }
+
+    public void enviarRelatorioAtualizacao(Animal animal, boolean novo) {
         String destinatario = animal.getCuidador().getEmail();
-        String assunto = "Atualização do Animal: " + animal.getNome();
+        String assunto = (novo ? "Novo animal sob seus cuidados: " : "Atualização do animal: ") + animal.getNome();
 
         String corpo = """
-        O animal foi atualizado com as seguintes informações:
+        O animal foi %s com as seguintes informações:
 
         Nome: %s
         Espécie: %s
@@ -36,6 +59,7 @@ public class EmailService {
         Cuidador Responsável: %s
         Telefone: %s
         """.formatted(
+                novo ? "atribuído a você" : "atualizado",
                 animal.getNome(),
                 animal.getEspecie(),
                 animal.getIdade(),
@@ -46,13 +70,54 @@ public class EmailService {
         sendEmail(destinatario, assunto, corpo);
     }
 
-    public void enviarAviso(Alimentacao alimentacao) {
-        String destinatario = alimentacao.getAnimal().getCuidador().getEmail();
-        String assunto = "Aviso de alimentação";
-        String corpo = "O animal " + alimentacao.getAnimal().getNome() +
-                " precisa de " + alimentacao.getQuantidadeDiaria() +
-                " de " + alimentacao.getTipoComida();
+    public void enviarHistorico(Animal animal, HistoricoDto historico) {
+        String destinatario = animal.getCuidador().getEmail();
+        String assunto = "Histórico do novo animal sob seus cuidados: " + animal.getNome();
+
+        String corpo = """
+        Você agora é responsável pelo animal:
+
+        Nome: %s
+        Espécie: %s
+        Idade: %d anos
+
+        Histórico de alimentações:
+        %s
+
+        Histórico de consultas:
+        %s
+        """.formatted(
+                historico.nome(),
+                historico.especie(),
+                historico.idade(),
+                String.join("\n", historico.alimentacoes()),
+                String.join("\n", historico.consultas())
+        );
 
         sendEmail(destinatario, assunto, corpo);
+    }
+
+    public void enviarAvisoTrocaCuidador(Animal animal, Cuidador antigoCuidador) {
+        String assunto = "Você não é mais responsável pelo animal " + animal.getNome();
+        String corpo = """
+        Olá %s,
+
+        Informamos que você não é mais o cuidador responsável pelo animal:
+
+        Nome: %s
+        Espécie: %s
+        Idade: %d anos
+
+        Novo cuidador: %s
+
+        """.formatted(
+                antigoCuidador.getNome(),
+                animal.getNome(),
+                animal.getEspecie(),
+                animal.getIdade(),
+                animal.getCuidador() != null ? animal.getCuidador().getNome() : "Ainda não definido"
+        );
+
+        sendEmail(antigoCuidador.getEmail(), assunto, corpo);
     }
 }

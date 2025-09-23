@@ -71,8 +71,7 @@ public class AlimentacaoService {
         Alimentacao entity = toEntity(alimentacaoDto);
         Alimentacao salvo = alimentacaoRepository.save(entity);
 
-        // já dispara aviso na criação
-        enviarAviso(salvo);
+        emailService.enviarAviso(salvo);
 
         return toDto(salvo);
     }
@@ -129,28 +128,6 @@ public class AlimentacaoService {
                 .toList();
     }
 
-    // ========= Notificação =========
-    private void enviarAviso(Alimentacao alimentacao) {
-        Animal animal = alimentacao.getAnimal();
-        if (animal == null || animal.getCuidador() == null) return;
-
-        var cuidador = animal.getCuidador();
-        String assunto = "Aviso de alimentação - " + animal.getNome();
-        String corpo = """
-            O animal %s (%s) precisa de %.2f de %s.
-            Responsável: %s (%s)
-            """.formatted(
-                animal.getNome(),
-                animal.getEspecie(),
-                alimentacao.getQuantidadeDiaria(),
-                alimentacao.getTipoComida(),
-                cuidador.getNome(),
-                cuidador.getTelefone()
-        );
-
-        emailService.sendEmail(cuidador.getEmail(), assunto, corpo);
-    }
-
     // ========= Rotina Automática =========
     @Scheduled(cron = "0 * * * * *") // a cada minuto
     public void verificarAlimentacoesPendentes() {
@@ -158,7 +135,7 @@ public class AlimentacaoService {
         List<Alimentacao> pendentes = alimentacaoRepository.findByHorarioBeforeAndRealizadaFalse(agora);
 
         for (Alimentacao alimentacao : pendentes) {
-            enviarAviso(alimentacao);
+            emailService.enviarAviso(alimentacao);
             alimentacao.setRealizada(true);
             alimentacaoRepository.save(alimentacao);
         }
