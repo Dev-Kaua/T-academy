@@ -14,10 +14,12 @@ import java.util.List;
 public class ClienteService {
     private final ClienteRepository clienteRepository;
     private final RestTemplate restTemplate;
+    private final EmailService emailService;
 
-    public ClienteService(ClienteRepository clienteRepository, RestTemplate restTemplate) {
+    public ClienteService(ClienteRepository clienteRepository, RestTemplate restTemplate, EmailService emailService) {
         this.clienteRepository = clienteRepository;
         this.restTemplate = restTemplate;
+        this.emailService = emailService;
     }
 
     public ClienteResponse create(ClienteRequest request){
@@ -37,6 +39,8 @@ public class ClienteService {
         cliente.setBairro(viaCep.bairro());
 
         Cliente saved = clienteRepository.save(cliente);
+
+        emailService.sendWelcomeEmail(saved.getEmail(), saved.getNome());
 
         return new ClienteResponse(
                 saved.getId(),
